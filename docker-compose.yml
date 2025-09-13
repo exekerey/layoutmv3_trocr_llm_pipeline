@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: banking-ocr:cpu
+    container_name: banking-ocr
+    env_file: .env
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/data
+      - ./cache/hf:/cache/hf
+      - ./:/app:ro
+    command: ["web"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8501/_stcore/health || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+  # gpu
+  app-gpu:
+    profiles: ["gpu"]
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
+    image: banking-ocr:gpu
+    container_name: banking-ocr-gpu
+    env_file: .env
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/data
+      - ./cache/hf:/cache/hf
+      - ./:/app:ro
+    command: ["web"]
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
