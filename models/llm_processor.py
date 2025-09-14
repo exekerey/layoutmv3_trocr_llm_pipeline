@@ -1,6 +1,8 @@
-import os
-from openai import OpenAI
 import json
+import os
+
+from dotenv import load_dotenv
+from openai import OpenAI
 
 
 class LLMProcessor:
@@ -13,6 +15,7 @@ class LLMProcessor:
             model: Model to use
         """
         if api_key is None:
+            load_dotenv()
             api_key = os.environ.get("OPENAI_API_KEY")
 
         self.client = OpenAI(api_key=api_key)
@@ -31,14 +34,14 @@ class LLMProcessor:
             Structured JSON with extracted information
         """
         # Create prompt based on document type
-        if document_type == 0:  # Receipt
-            prompt = self._create_receipt_prompt(ocr_text, fields)
-        elif document_type == 1:  # Contract
-            prompt = self._create_contract_prompt(ocr_text, fields)
-        elif document_type == 2:  # Statement
-            prompt = self._create_statement_prompt(ocr_text, fields)
-        else:
-            prompt = self._create_general_prompt(ocr_text, fields)
+        # if document_type == 0:  # Receipt
+        #     prompt = self._create_receipt_prompt(ocr_text, fields)
+        # elif document_type == 1:  # Contract
+        #     prompt = self._create_contract_prompt(ocr_text, fields)
+        # elif document_type == 2:  # Statement
+        #     prompt = self._create_statement_prompt(ocr_text, fields)
+        # else:
+        prompt = self._create_general_prompt(ocr_text, fields)
 
         response = self.client.chat.completions.create(
             model=self.model,
@@ -128,9 +131,10 @@ class LLMProcessor:
 
     def _create_general_prompt(self, ocr_text, fields=None):
         return f"""
-        Extract key banking information from this document.
+        Extract key information from this document.
         Determine the document type first (receipt, contract, statement, or other).
         Then extract all relevant financial and personal information present.
+        Validate the values in the extracted fields and correct as needed.
 
         Here is the OCR text:
         {ocr_text}

@@ -23,7 +23,7 @@ class DocumentProcessor:
             self.device = device
 
         # Initialize processor and model for document classification
-        self.processor = LayoutLMv3Processor.from_pretrained(model_name)
+        self.processor = LayoutLMv3Processor.from_pretrained(model_name, apply_ocr=False)
         self.doc_classifier = LayoutLMv3ForSequenceClassification.from_pretrained(
             model_name
         ).to(self.device)

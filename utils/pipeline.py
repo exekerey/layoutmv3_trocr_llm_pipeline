@@ -1,6 +1,8 @@
 import time
 
 import cv2
+import fitz  # PyMuPDF
+import numpy as np
 from PIL import Image
 
 from models.document_processor import DocumentProcessor
@@ -27,22 +29,41 @@ class DocumentPipeline:
         Process a document through the entire pipeline
 
         Args:
-            image_path: Path to document image
+            image_path: Path to document image or PDF
 
         Returns:
             Processed document information as JSON
         """
         start_time = time.time()
 
+        if image_path.lower().endswith('.pdf'):
+            with fitz.open(image_path) as doc:
+                page = doc.load_page(0)  # Get the first page
+                pix = page.get_pixmap()  # Gives RGB by default
+                
+                if pix.n == 1: # Grayscale
+                    img_rgb = cv2.cvtColor(np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.h, pix.w, 1), cv2.COLOR_GRAY2RGB)
+                elif pix.n == 4: # RGBA
+                    img_rgb = cv2.cvtColor(np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.h, pix.w, 4), cv2.COLOR_RGBA2RGB)
+                else: # Assumes RGB
+                    img_rgb = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.h, pix.w, 3)
+
+                img = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+                image_for_pil = Image.fromarray(img_rgb)
+        else:
+            img = cv2.imread(image_path)
+            if img is None:
+                raise ValueError(f"Image at {image_path} could not be loaded.")
+            image_for_pil = Image.open(image_path).convert("RGB")
+
         # Step 1: Run OCR
         ocr_start = time.time()
-        ocr_results = self.ocr_engine.recognize(image_path)
+        ocr_results = self.ocr_engine.recognize(img)  # Pass image data
         ocr_time = time.time() - ocr_start
 
         # Step 2: Process with Vision Transformer
         vt_start = time.time()
-        image = Image.open(image_path).convert("RGB")
-        document_analysis = self.document_processor.process_document(image, ocr_results)
+        document_analysis = self.document_processor.process_document(image_for_pil, ocr_results)
         vt_time = time.time() - vt_start
 
         # Step 3: Process with LLM

@@ -19,13 +19,10 @@ class OCREngine:
             det_db_box_thresh=0.5,
             det_db_unclip_ratio=1.6,  # Larger value for tighter text boxes
             rec_batch_num=6,  # Batch size for recognition
-            rec_model_dir=f'./models/paddle_models/rec_{lang}',  # Path to save/load models
-            cls_model_dir='./models/paddle_models/cls',
-            det_model_dir='./models/paddle_models/det'
         )
 
     def preprocess_image(self, image_path):
-        """Apply preprocessing to improve OCR quality on noisy documents"""
+        """Apply preprocessing to improve OCR quality on noisy documents""" 
         # Read image
         if isinstance(image_path, str):
             img = cv2.imread(image_path)
@@ -44,9 +41,9 @@ class OCREngine:
         # Denoise
         denoised = cv2.fastNlMeansDenoising(thresh, None, 10, 7, 21)
 
-        return denoised
+        return cv2.cvtColor(denoised, cv2.COLOR_GRAY2BGR)
 
-    def recognize(self, image_path, preprocess=True):
+    def recognize(self, image_path, preprocess=False):
         """
         Perform OCR on an image and return structured results
 
@@ -66,20 +63,23 @@ class OCREngine:
                 img = image_path
 
         # Run OCR
-        results = self.ocr.ocr(img, cls=True)
-
-        # Structure the results
+        results = self.ocr.ocr(img)
+        
         structured_results = []
-        for idx, res in enumerate(results):
-            if res:
-                for line in res:
-                    box, (text, confidence) = line
-                    structured_results.append({
-                        'text': text,
-                        'confidence': float(confidence),
-                        'box': box,
-                        'page': idx
-                    })
+        if results and results[0]:
+            res_dict = results[0]
+            
+            boxes = res_dict.get('dt_polys', [])
+            texts = res_dict.get('rec_texts', [])
+            scores = res_dict.get('rec_scores', [])
+
+            for box, text, score in zip(boxes, texts, scores):
+                structured_results.append({
+                    'text': text,
+                    'confidence': float(score),
+                    'box': box.tolist(), # convert numpy array to list
+                    'page': 0 # Assuming single page
+                })
 
         return {
             'results': structured_results,
