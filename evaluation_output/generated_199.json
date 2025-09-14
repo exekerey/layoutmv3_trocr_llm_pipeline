@@ -1,0 +1,21 @@
+{
+  "document_type": "contract",
+  "extracted_data": {
+    "contract_number": "SM-1712/22",
+    "contract_date": "2022-12-17",
+    "contract_expiration_date": "2023-12-31",
+    "counterparty_name": "Товарищество с ограниченной ответственностью «Strong Miner»",
+    "counterparty_country": null,
+    "contract_sum": null,
+    "contract_sum_currency": "RUB",
+    "contract_payment_currency": "RUB"
+  },
+  "confidence": 0.5322449803352356,
+  "processing_times": {
+    "ocr": 58.49364519119263,
+    "vision_transformer": 3.3866167068481445,
+    "llm": 4.75398588180542,
+    "total": 66.68710970878601
+  },
+  "pages": 3
+}

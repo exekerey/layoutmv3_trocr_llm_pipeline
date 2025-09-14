@@ -1,0 +1,21 @@
+{
+  "document_type": "contract",
+  "extracted_data": {
+    "contract_number": "N_D/2024/28",
+    "contract_date": "2024-04-17",
+    "contract_expiration_date": null,
+    "counterparty_name": "UAB \"Mega\"",
+    "counterparty_country": "LT.Литва",
+    "contract_sum": 2000000,
+    "contract_sum_currency": "EUR",
+    "contract_payment_currency": "EUR"
+  },
+  "confidence": 0.5728555917739868,
+  "processing_times": {
+    "ocr": 109.29266715049744,
+    "vision_transformer": 5.314527750015259,
+    "llm": 4.7622599601745605,
+    "total": 119.4462399482727
+  },
+  "pages": 5
+}

@@ -1,0 +1,21 @@
+{
+  "document_type": "receipt",
+  "extracted_data": {
+    "contract_number": "IC-45-2022",
+    "contract_date": "2022-09-01",
+    "contract_expiration_date": "2023-12-31",
+    "counterparty_name": "ООО «КОРЕКСФАРМ»",
+    "counterparty_country": "RU.Россия",
+    "contract_sum": null,
+    "contract_sum_currency": "EUR,USD",
+    "contract_payment_currency": "EUR,USD"
+  },
+  "confidence": 0.5125956535339355,
+  "processing_times": {
+    "ocr": 186.94291234016418,
+    "vision_transformer": 7.470134735107422,
+    "llm": 4.648446083068848,
+    "total": 199.1830189228058
+  },
+  "pages": 7
+}

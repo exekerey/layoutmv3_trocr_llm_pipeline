@@ -63,7 +63,6 @@ class DocumentPipeline:
                     # Step 2: Process with Vision Transformer
                     vt_start = time.time()
                     document_analysis = self.document_processor.process_document(image_for_pil, ocr_results)
-                    print(document_analysis)
 
                     vt_time = time.time() - vt_start
 

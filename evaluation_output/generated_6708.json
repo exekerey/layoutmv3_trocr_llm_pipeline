@@ -1,0 +1,21 @@
+{
+  "document_type": "receipt",
+  "extracted_data": {
+    "contract_number": "HDEL-Tech/4",
+    "contract_date": "2024-04-12",
+    "contract_expiration_date": "2024-12-31",
+    "counterparty_name": "HYUNDAITECH EL CO., LTD",
+    "counterparty_country": "KR.Республика Корея",
+    "contract_sum": 176300,
+    "contract_sum_currency": "USD",
+    "contract_payment_currency": "USD"
+  },
+  "confidence": 0.5129512548446655,
+  "processing_times": {
+    "ocr": 142.91593837738037,
+    "vision_transformer": 7.550503730773926,
+    "llm": 5.19095516204834,
+    "total": 155.76975798606873
+  },
+  "pages": 7
+}

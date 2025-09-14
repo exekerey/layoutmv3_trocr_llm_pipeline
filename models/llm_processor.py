@@ -48,7 +48,8 @@ class LLMProcessor:
                 {"role": "system",
                  "content": self._system_prompt()},
                 {"role": "user", "content": self._message_prompt(ocr_text, fields)}
-            ]
+            ],
+            temperature=0
         )
 
         # Extract JSON from response
@@ -92,8 +93,12 @@ class LLMProcessor:
         - counterparty_name - name of the counterparty company. Provide it as in the document. Make sure to add the company type, on the same language as text provided. "Общество с Ограниченной Ответсвенностью -> ООО"
         - counterparty_country - composite string out of country code of the counterparty company in ISO 3166-1 alpha-2 format and country full name in Russian separated by dot.
         - contract_sum - sum of the contract(only numbers).
-        - contract_sum_currency - currency code of the contract.
+        - contract_sum_currency - currency code of the contract. 
         - contract_payment_currency - payment currency code of the contract.
+        Both contract sum currency and contract payment currency usually the same if one of them is omitted.
+        Counterparty is usually seller, not buyer.
+        For contract expiration, choose the latest condition.
+        For currencies, if there is multiple, list them together in a string, separated by a comma
         
         In case when a field is not present in a document and it's not possible to deduct it, set the field's value to null.
         The OCR may make mistakes, validate the values in the extracted fields and correct them as needed.
@@ -110,6 +115,9 @@ class LLMProcessor:
             "contract_payment_currency": "RUB",
         }}
         
+        Fix possible OCR mistakes, like "от «[2» 04_ 2024" actually being "от «12» 04 2024", 0s being actually O and similar things.
+        Use surrounding context to determine and fix typos.
+        Avoid making fake assumptions if there is no direct evidence.
         """
 
 

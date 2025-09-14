@@ -1,0 +1,21 @@
+{
+  "document_type": "contract",
+  "extracted_data": {
+    "contract_number": "9-2702-2023",
+    "contract_date": "2023-02-27",
+    "contract_expiration_date": "2024-12-31",
+    "counterparty_name": "ООО «Алтай-Кабель»",
+    "counterparty_country": "RU.Россия",
+    "contract_sum": 182117993.91,
+    "contract_sum_currency": "RUB",
+    "contract_payment_currency": "RUB"
+  },
+  "confidence": 0.5252087712287903,
+  "processing_times": {
+    "ocr": 49.38790225982666,
+    "vision_transformer": 3.306105613708496,
+    "llm": 4.96859073638916,
+    "total": 57.729877948760986
+  },
+  "pages": 3
+}

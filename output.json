@@ -4,18 +4,18 @@
     "contract_number": "SM-1712/22",
     "contract_date": "2022-12-17",
     "contract_expiration_date": "2023-12-31",
-    "counterparty_name": "ООО «СТройкомпозит-Н»",
-    "counterparty_country": "RU.Россия",
+    "counterparty_name": "Стронг Майнер",
+    "counterparty_country": null,
     "contract_sum": null,
-    "contract_sum_currency": "RUB",
+    "contract_sum_currency": null,
     "contract_payment_currency": "RUB"
   },
-  "confidence": 0.5672404170036316,
+  "confidence": 0.5053036212921143,
   "processing_times": {
-    "ocr": 60.689208984375,
-    "vision_transformer": 3.322789430618286,
-    "llm": 2.417886972427368,
-    "total": 66.4939477443695
+    "ocr": 58.26435112953186,
+    "vision_transformer": 3.644500732421875,
+    "llm": 5.895518064498901,
+    "total": 67.87123012542725
   },
   "pages": 3
 }
