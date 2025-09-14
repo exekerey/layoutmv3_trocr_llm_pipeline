@@ -41,10 +41,9 @@ class LLMProcessor:
         # elif document_type == 2:  # Statement
         #     prompt = self._create_statement_prompt(ocr_text, fields)
         # else:
-        print(ocr_text, "\n\n", fields)
         response = self.client.chat.completions.create(
             model=self.model,
-            response_format={"type": "json_object"},
+            response_format={"type": "json_object"},  # noqa
             messages=[  # noqa
                 {"role": "system",
                  "content": self._system_prompt()},
@@ -90,7 +89,7 @@ class LLMProcessor:
         - contract_number - unique identifier of the contract.
         - contract_date - date when contract is signed or executed.
         - contract_expiration_date - date when contract expires.
-        - counterparty_name - name of the counterparty company. Provide it as in the document.
+        - counterparty_name - name of the counterparty company. Provide it as in the document. Make sure to add the company type, on the same language as text provided. "Общество с Ограниченной Ответсвенностью -> ООО"
         - counterparty_country - composite string out of country code of the counterparty company in ISO 3166-1 alpha-2 format and country full name in Russian separated by dot.
         - contract_sum - sum of the contract(only numbers).
         - contract_sum_currency - currency code of the contract.

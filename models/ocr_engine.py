@@ -13,12 +13,26 @@ class OCREngine:
         """
         self.lang = lang
         self.ocr = PaddleOCR(
-            use_angle_cls=True,  # Use angle classifier for rotated text
             lang=lang,  # Language model
             det_db_thresh=0.3,  # Lower threshold for detecting text in noisy images
             det_db_box_thresh=0.5,
             det_db_unclip_ratio=1.6,  # Larger value for tighter text boxes
             rec_batch_num=6,  # Batch size for recognition
+            # det_db_thresh=0.3,  # Lower threshold for detecting text in noisy images
+            # det_db_box_thresh=0.5,
+            # det_db_unclip_ratio=1.6,  # Larger value for tighter text boxes
+            # rec_batch_num=120,  # Batch size for recognition
+            use_doc_orientation_classify=True,  # Auto-rotate documents
+            use_doc_unwarping=True,  # Fix curved/warped documents
+            use_textline_orientation=True,  # Handle rotated text lines (replaces use_angle_cls)
+            # text_det_limit_side_len=480,  # Higher resolution
+            # text_det_thresh=0.3,  # Sensitive detection
+            # text_det_box_thresh=0.5,
+            # text_det_unclip_ratio=1.6,
+            # text_rec_score_thresh=0.5,  # Filter low confidence
+            # return_word_box=True,  # Word-level boxes
+            # text_recognition_batch_size=8,
+            # textline_orientation_batch_size=8
         )
 
     def preprocess_image(self, image_path):

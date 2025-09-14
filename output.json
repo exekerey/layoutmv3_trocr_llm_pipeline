@@ -1,20 +1,21 @@
 {
-  "document_type": "receipt",
+  "document_type": "contract",
   "extracted_data": {
     "contract_number": "SM-1712/22",
     "contract_date": "2022-12-17",
-    "contract_expiration_date": null,
-    "counterparty_name": "Общество с ограниченной ответственностью «СТройкомпозит-Н» (ООО «СТройкомпозит-Н»)",
-    "counterparty_country": "KZ.Казахстан",
+    "contract_expiration_date": "2023-12-31",
+    "counterparty_name": "ООО «СТройкомпозит-Н»",
+    "counterparty_country": "RU.Россия",
     "contract_sum": null,
-    "contract_sum_currency": null,
-    "contract_payment_currency": null
+    "contract_sum_currency": "RUB",
+    "contract_payment_currency": "RUB"
   },
-  "confidence": 0.598157525062561,
+  "confidence": 0.5672404170036316,
   "processing_times": {
-    "ocr": 21.34300422668457,
-    "vision_transformer": 1.0914890766143799,
-    "llm": 2.891139030456543,
-    "total": 25.346314907073975
-  }
+    "ocr": 60.689208984375,
+    "vision_transformer": 3.322789430618286,
+    "llm": 2.417886972427368,
+    "total": 66.4939477443695
+  },
+  "pages": 3
 }

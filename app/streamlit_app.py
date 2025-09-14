@@ -61,7 +61,7 @@ with col1:
         if tmp_path.lower().endswith(('.png', '.jpg', '.jpeg')):
             st.image(tmp_path, caption="Uploaded Document", use_column_width=True)
         else:
-            st.info("PDF file uploaded. Processing first page.")
+                        st.info("PDF file uploaded. All pages will be processed.")
 
         # Process button
         if st.button("Process Document"):
