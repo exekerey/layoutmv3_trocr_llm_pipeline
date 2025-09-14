@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -euo pipefail
 
 set -a
@@ -5,21 +6,64 @@ set -a
 set +a
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PYBIN="${PYBIN:-/opt/homebrew/opt/python@3.11/bin/python3.11}"
+VENVDIR="${VENVDIR:-.venv}"
 
-if [[ ! -d "${VENVDIR}" ]]; then
-  "${PYBIN}" -m venv "${VENVDIR}"
+if ! "$PYBIN" -V 2>/dev/null | grep -q "Python 3\.11"; then
+  echo "PYBIN must point to Python 3.11"; exit 1
 fi
-. "${VENVDIR}/bin/activate"
 
-pip install -U pip wheel
-pip install paddlepaddle==3.2.0 paddleocr
+if [[ -d "$VENVDIR" ]]; then
+  VENV_PY="$VENVDIR/bin/python"
+  if [[ -x "$VENV_PY" ]]; then
+    if ! "$VENV_PY" -V | grep -q "Python 3\.11"; then
+      rm -rf "$VENVDIR"
+    fi
+  else
+    rm -rf "$VENVDIR"
+  fi
+fi
+
+if [[ ! -d "$VENVDIR" ]]; then
+  "$PYBIN" -m venv "$VENVDIR"
+fi
+. "$VENVDIR/bin/activate"
+
+python -V
+
+pip install -U pip wheel setuptools
+pip uninstall -y paddlex paddlenlp paddlespeech || true
+pip uninstall -y paddleocr paddlepaddle || true
+pip install --no-cache-dir paddlepaddle==2.6.1 paddleocr==2.6.1.3
+pip install --no-cache-dir opencv-python==4.10.0.84 pdf2image==1.17.0 pillow==10.4.0 numpy==1.26.4
+pip install --no-cache-dir transformers==4.44.2 huggingface-hub==0.24.6 torch==2.3.1 torchvision==0.18.1
+pip install --no-cache-dir jiwer==4.0.0 python-Levenshtein==0.25.1 pytesseract==0.3.13
+
+: "${HF_HOME:=$HOME/.cache/huggingface}"
+: "${TRANSFORMERS_CACHE:=$HF_HOME/transformers}"
+: "${TOKENIZERS_PARALLELISM:=false}"
+: "${OMP_NUM_THREADS:=1}"
+export HF_HOME TRANSFORMERS_CACHE TOKENIZERS_PARALLELISM OMP_NUM_THREADS
+
 if [[ -f "${PROJECT_ROOT}/requirements.txt" ]]; then
   pip install -r "${PROJECT_ROOT}/requirements.txt"
 fi
-pip install jiwer python-Levenshtein pytesseract pdf2image pillow opencv-python
 
 : "${PYTHONPATH:=}"
 export PYTHONPATH="${PROJECT_ROOT}:${PYTHONPATH}"
+
+LANG_CODE="${LANG_CODE:-ru}"
+IMAGES_DIR="${IMAGES_DIR:-data}"
+GT_OCR_DIR="${GT_OCR_DIR:-data/gt/ocr_text}"
+GT_FIELDS_DIR="${GT_FIELDS_DIR:-data/gt/fields_json}"
+PRED_TEXT_DIR="${PRED_TEXT_DIR:-data/preds/ocr_text}"
+PRED_JSON_DIR="${PRED_JSON_DIR:-data/preds/fields_json}"
+PRED_NOISY_TEXT_DIR="${PRED_NOISY_TEXT_DIR:-data/preds_noisy/ocr_text}"
+PRED_NOISY_JSON_DIR="${PRED_NOISY_JSON_DIR:-data/preds_noisy/fields_json}"
+TESS_TEXT_DIR="${TESS_TEXT_DIR:-data/tesseract/ocr_text}"
+TESS_NOISY_TEXT_DIR="${TESS_NOISY_TEXT_DIR:-data/tesseract_noisy/ocr_text}"
+MAKE_NOISY="${MAKE_NOISY:-false}"
+REPORT_JSON="${REPORT_JSON:-evaluation_report.json}"
 
 mkdir -p "${PRED_TEXT_DIR}" "${PRED_JSON_DIR}" \
          "${PRED_NOISY_TEXT_DIR}" "${PRED_NOISY_JSON_DIR}" \
