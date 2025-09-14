@@ -1,45 +1,20 @@
 {
   "document_type": "receipt",
   "extracted_data": {
-    "document_type": "contract",
     "contract_number": "SM-1712/22",
-    "date": "17 декабря 2022 года",
-    "location": "Караганда",
-    "supplier": {
-      "name": "Товарищество с ограниченной ответственностью «Strонg Мiner»",
-      "representative": "Азанов Антон Сергеевич",
-      "position": "Генеральный директор"
-    },
-    "buyer": {
-      "name": "Общество с ограниченной ответственностью «СТройкомпозит-Н»",
-      "representative": "Ференс Антон Владимирович",
-      "position": "Генеральный директор"
-    },
-    "subject_of_contract": "Поставка товаров производственно-технического назначения",
-    "specifications": {
-      "included": true,
-      "details": "Наименование, ассортимент, цена, количество и качество согласовываются в Спецификациях"
-    },
-    "warranty_period": "6 месяцев",
-    "payment_terms": {
-      "invoice_based_on_specification": true,
-      "section": "3"
-    },
-    "delivery_terms": {
-      "railway": "догрузка товара на транспортное средство и передача в распоряжение перевозчика",
-      "automobile": "выгрузка и предоставление в распоряжение покупателя"
-    },
-    "additional_conditions": "Спецификации и отгрузочные разнарядки",
-    "delivery_method": {
-      "default": "организована за счет покупателя",
-      "option": "железнодорожная или автомобильная доставка"
-    }
+    "contract_date": "2022-12-17",
+    "contract_expiration_date": null,
+    "counterparty_name": "Общество с ограниченной ответственностью «СТройкомпозит-Н» (ООО «СТройкомпозит-Н»)",
+    "counterparty_country": "KZ.Казахстан",
+    "contract_sum": null,
+    "contract_sum_currency": null,
+    "contract_payment_currency": null
   },
-  "confidence": 0.5550306439399719,
+  "confidence": 0.598157525062561,
   "processing_times": {
-    "ocr": 21.88229203224182,
-    "vision_transformer": 1.132737636566162,
-    "llm": 4.3554651737213135,
-    "total": 27.392265796661377
+    "ocr": 21.34300422668457,
+    "vision_transformer": 1.0914890766143799,
+    "llm": 2.891139030456543,
+    "total": 25.346314907073975
   }
 }
